@@ -34,11 +34,12 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // these endpoints are public — no token needed
-                        .requestMatchers("/api/auth/**").permitAll()
-                        // everything else requires valid token
-                        .anyRequest().authenticated()
-                )
+                .requestMatchers(
+                        "/",
+                        "/api/auth/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+        )
                 // no sessions — JWT is stateless
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
